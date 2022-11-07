@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Cadastrar carros</title>
+</head>
+<body>
+    <form class="vertical-form" action="/user" method="POST" th:object="${user}">
+        <input type="hidden" th:field="*{id}" id="id">
+        <label for="nome">Nome</label>
+        <input 
+            type="text" 
+            name="nome" 
+            id="nome"
+            th:field="*{nome}"
+        >
+        <span th:errors="*{nome}"></span>
+
+        <label for="marca">E-mail</label>
+        <input 
+            type="text" 
+            name="email" 
+            id="email"
+            th:field="*{email}"
+        >
+        <span th:errors="*{email}"></span>
+        
+
+        <label for="senha">Senha</label>
+        <input 
+            type="text" 
+            name="senha" 
+            id="senha"
+            th:field="*{senha}"
+        >
+        <span th:errors="*{senha}"></span>
+
+        <div class="buttons">
+            <a href="/user" class="button cancel">cancelar</a>
+            <input class="button" type="submit" value="cadastrar">
+        </div>
+    </form>
+
+    
+</body>
+</html>

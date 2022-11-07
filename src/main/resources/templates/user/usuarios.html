@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de usuários</title>
+</head>
+<body>
+    <header>
+        <h1>Usuários</h1>
+        <a href="/logout" title="sair">sair</a>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/carro">Carros Disponiveis</a></li>
+            <li><a href="#">Carros Indisponiveis</a></li>
+            <li><a href="#">Usuários</a></li>
+        </ul>
+    </nav>
+
+    <a href="/user/newUser">Cadastrar Usuários</a>
+
+    <main th:each="user : ${user}">
+        <div>
+            <span th:text="${user.nome}"></span>
+            <span th:text="${user.email}"></span>
+            <div>
+                <a th:href="${'/user/delete/' + user.id}"><span>delete</span></a>        
+            </div>
+        </div>
+    </main>
+</body>
+</html>

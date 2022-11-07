@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carros para alugar</title>
+</head>
+<body>
+    <header>
+        <h1>Carros</h1>
+        <div>
+            <a href="/logout" title="sair">sair</a>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#">Carros Disponiveis</a></li>
+            <li><a href="#">Carros Indisponiveis</a></li>
+            <li><a href="/user">Usuários</a></li>
+        </ul>
+    </nav>
+
+    <a href="/carro/newCarro">Cadastrar Carro</a>
+
+    <main th:each="carro : ${carros}">
+        <div>
+            <span th:text="${carro.modelo}"></span>
+            <span th:text="${carro.marca}"></span>
+            <span th:text="${carro.nota}"></span>
+            <span th:text="${carro.valor}"></span>
+        <div>
+            <a th:href="${'/carro/delete/' + carro.id}"><span>delete</span></a>        
+        </div>
+        <div>
+            <a th:href="${'/carro/update/' + carro.id}">
+                <span>edit</span>
+            </a>
+        </div>
+        </div>
+    </main>
+</body>
+</html>

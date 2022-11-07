@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Cadastrar carros</title>
+</head>
+<body>
+    <form class="vertical-form" action="/carro" method="POST" th:object="${carro}">
+        <input type="hidden" th:field="*{id}" id="id">
+        <label for="modelo">Modelo</label>
+        <input 
+            type="text" 
+            name="modelo" 
+            id="modelo"
+            th:field="*{modelo}"
+        >
+        <span th:errors="*{modelo}"></span>
+
+        <label for="marca">Marca</label>
+        <input 
+            type="text" 
+            name="marca" 
+            id="marca"
+            th:field="*{marca}"
+        >
+        <span th:errors="*{marca}"></span>
+        
+
+        <label for="nota">Nota</label>
+        <input 
+            type="text" 
+            name="nota" 
+            id="nota"
+            th:field="*{nota}"
+        >
+        <span th:errors="*{nota}"></span>
+        
+        <label for="valor">Valor</label>
+        <input 
+            type="text" 
+            name="valor" 
+            id="valor"
+            th:field="*{valor}"
+        >
+        <span th:errors="*{valor}"></span>
+
+        <div class="buttons">
+            <a href="/carro" class="button cancel">cancelar</a>
+            <input class="button" type="submit" value="cadastrar">
+        </div>
+    </form>
+
+    
+</body>
+</html>
