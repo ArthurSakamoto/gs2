@@ -18,7 +18,7 @@
         >
         <span th:errors="*{nome}"></span>
 
-        <label for="marca">E-mail</label>
+        <label for="email">E-mail</label>
         <input 
             type="text" 
             name="email" 
@@ -28,14 +28,14 @@
         <span th:errors="*{email}"></span>
         
 
-        <label for="senha">Senha</label>
+        <label for="password">Senha</label>
         <input 
             type="text" 
-            name="senha" 
-            id="senha"
-            th:field="*{senha}"
+            name="password" 
+            id="password"
+            th:field="*{password}"
         >
-        <span th:errors="*{senha}"></span>
+        <span th:errors="*{password}"></span>
 
         <div class="buttons">
             <a href="/user" class="button cancel">cancelar</a>

@@ -52,5 +52,15 @@ public class UserWebController {
 
         return "redirect:/user";
     }
+
+    @GetMapping("update/{id}")
+    public ModelAndView update(@PathVariable Long id){
+        Optional<User> optional = service.get2(id);
+        if (optional.isPresent()){
+            return new ModelAndView("user/form")
+                .addObject("user", optional.get());
+        }
+        return new ModelAndView("/user/usuarios");
+    }
     
 }
