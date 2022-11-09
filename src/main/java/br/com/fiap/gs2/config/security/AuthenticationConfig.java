@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -17,9 +19,9 @@ public class AuthenticationConfig {
             .authorizeRequests()
                 // carros
                 .antMatchers(HttpMethod.GET, "/api/carro/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/carro").permitAll()
-                .antMatchers(HttpMethod.PUT, "/api/carro/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/carro/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/carro").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/carro/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/carro/**").hasRole("ADMIN")
 
                 // user
                 .antMatchers(HttpMethod.GET, "/api/user/**").permitAll()
@@ -28,23 +30,26 @@ public class AuthenticationConfig {
                 .antMatchers(HttpMethod.DELETE, "/api/user/**").authenticated()
 
                 // web
-                .antMatchers("/carro/**").permitAll()
-                .antMatchers("/carro/newCarro/**").permitAll()
+                .antMatchers("/carro/**").authenticated()
+                .antMatchers("/carro/newCarro/**").hasRole("ADMIN")
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/user/newUser/**").permitAll()
                 .antMatchers("/css/**").permitAll()
 
-                .anyRequest().denyAll()
+                .anyRequest().permitAll()
             .and()
                 .csrf().disable()
                 //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .headers().frameOptions().disable()
             .and()
                 .formLogin()
-                .successForwardUrl("/carro")
         ;
 
         return http.build();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 }

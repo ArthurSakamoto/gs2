@@ -1,8 +1,10 @@
 package br.com.fiap.gs2.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,6 +16,10 @@ import javax.persistence.Table;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import br.com.fiap.gs2.dto.UserDto;
 
@@ -25,21 +31,40 @@ public class User implements UserDetails {
     private Long id;
     private String nome;
     private String email;
-    private String senha;
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private String password;
 
-    @ManyToMany(fetch =FetchType.EAGER)
-    private List<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private List<Role> roles = new ArrayList<>();
 
     public UserDto toDto(){
         return new UserDto(id, nome, email);
     }
-    
-    public User() {}
-    
-    public User(String nome, String email, String senha) {
+
+
+
+    public User nome(String nome){
+        Assert.notNull(nome, "nome is required");
         this.nome = nome;
+        return this;
+    }
+
+    public User email(String email){
+        Assert.notNull(email, "E-mail is required");
         this.email = email;
-        this.senha = senha;
+        return this;
+    }
+
+    public User password(String password){
+        Assert.notNull(password, "password is required");
+        this.password = password;
+        return this;
+    }
+
+    public User withRole(Role role){
+        Assert.notNull(role, "role is required");
+        this.roles.add(role);
+        return this;
     }
 
     public Long getId() {
@@ -60,22 +85,16 @@ public class User implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles;
-    }
-
-    @Override
-    public String getPassword() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
@@ -85,26 +104,27 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     public boolean isEnabled() {
-        // TODO Auto-generated method stub
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", nome=" + nome + ", email=" + email + ", password=" + password + ", roles=" + roles + "]";
     }
 
     

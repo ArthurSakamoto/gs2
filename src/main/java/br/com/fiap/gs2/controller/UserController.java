@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,9 @@ import br.com.fiap.gs2.service.UserService;
 public class UserController {
 
     @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
     private UserService service;
 
     @GetMapping
@@ -39,6 +43,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> create(@RequestBody User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(service.save(user)
