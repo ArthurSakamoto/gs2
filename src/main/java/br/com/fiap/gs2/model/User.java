@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
@@ -27,7 +26,8 @@ import br.com.fiap.gs2.dto.UserDto;
 @Table(name = "TB_User")
 public class User implements UserDetails {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String email;
@@ -37,31 +37,29 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Role> roles = new ArrayList<>();
 
-    public UserDto toDto(){
+    public UserDto toDto() {
         return new UserDto(id, nome, email);
     }
 
-
-
-    public User nome(String nome){
+    public User nome(String nome) {
         Assert.notNull(nome, "nome is required");
         this.nome = nome;
         return this;
     }
 
-    public User email(String email){
+    public User email(String email) {
         Assert.notNull(email, "E-mail is required");
         this.email = email;
         return this;
     }
 
-    public User password(String password){
+    public User password(String password) {
         Assert.notNull(password, "password is required");
         this.password = password;
         return this;
     }
 
-    public User withRole(Role role){
+    public User withRole(Role role) {
         Assert.notNull(role, "role is required");
         this.roles.add(role);
         return this;
@@ -70,24 +68,31 @@ public class User implements UserDetails {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -124,8 +129,8 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", nome=" + nome + ", email=" + email + ", password=" + password + ", roles=" + roles + "]";
+        return "User [id=" + id + ", nome=" + nome + ", email=" + email + ", password=" + password + ", roles=" + roles
+                + "]";
     }
 
-    
 }
