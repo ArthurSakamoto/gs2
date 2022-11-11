@@ -52,12 +52,11 @@
                         <input type="text" name="password" id="password" th:field="*{password}">
                         <span th:errors="*{password}"></span>
                     </div>
+                    <div class="buttons">
+                        <a href="/user" class="button cancel">cancelar</a>
+                        <input class="button btn" type="submit" value="cadastrar">
+                    </div>
                 </form>
-
-                <div class="buttons">
-                    <a href="/user" class="button cancel">cancelar</a>
-                    <input class="btn" type="submit" value="cadastrar">
-                </div>
             </section>
         </div>
 
