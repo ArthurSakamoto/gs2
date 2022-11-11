@@ -14,19 +14,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.fiap.gs2.dto.UserDto;
 import br.com.fiap.gs2.model.User;
 import br.com.fiap.gs2.service.UserService;
 
 @Controller
 @RequestMapping("/user")
 public class UserWebController {
-    
+
     @Autowired
     UserService service;
 
     @GetMapping
-    public ModelAndView disponivel(){
+    public ModelAndView disponivel() {
         ModelAndView mav = new ModelAndView("/user/usuarios");
 
         List<User> list = service.listAll();
@@ -35,32 +34,33 @@ public class UserWebController {
     }
 
     @GetMapping("/newUser")
-    public ModelAndView createForm(){
+    public ModelAndView createForm() {
         return new ModelAndView("/user/form").addObject("user", new User());
     }
 
     @PostMapping
-    public String create(@Valid User user, BindingResult binding){
-        if (binding.hasErrors()) return "/user/form";
+    public String create(@Valid User user, BindingResult binding) {
+        if (binding.hasErrors())
+            return "/user/form";
         service.save(user);
         return "redirect:/user";
     }
 
     @GetMapping("delete/{id}")
-    public String delete(@PathVariable Long id){
+    public String delete(@PathVariable Long id) {
         service.remove(id);
 
         return "redirect:/user";
     }
 
     @GetMapping("update/{id}")
-    public ModelAndView update(@PathVariable Long id){
+    public ModelAndView update(@PathVariable Long id) {
         Optional<User> optional = service.get2(id);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             return new ModelAndView("user/form")
-                .addObject("user", optional.get());
+                    .addObject("user", optional.get());
         }
         return new ModelAndView("/user/usuarios");
     }
-    
+
 }

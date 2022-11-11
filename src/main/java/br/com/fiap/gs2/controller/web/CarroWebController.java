@@ -6,7 +6,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,11 +23,11 @@ public class CarroWebController {
 
     @Autowired
     CarroService service;
-    
+
     @GetMapping
-    public ModelAndView disponivel(){
+    public ModelAndView disponivel() {
         ModelAndView mav = new ModelAndView("/carros/disponivel");
-        //mav.setViewName("/carro/disponivel");
+        // mav.setViewName("/carro/disponivel");
 
         List<Carro> list = service.listAll();
         mav.addObject("carros", list);
@@ -36,30 +35,31 @@ public class CarroWebController {
     }
 
     @GetMapping("/newCarro")
-    public ModelAndView createForm(){
+    public ModelAndView createForm() {
         return new ModelAndView("/carros/form").addObject("carro", new Carro());
     }
 
     @PostMapping
-    public String create(@Valid Carro carro, BindingResult binding){
-        if (binding.hasErrors()) return "/carro/form";
+    public String create(@Valid Carro carro, BindingResult binding) {
+        if (binding.hasErrors())
+            return "/carro/form";
         service.save(carro);
         return "redirect:/carro";
     }
 
     @GetMapping("delete/{id}")
-    public String delete(@PathVariable Long id){
+    public String delete(@PathVariable Long id) {
         service.remove(id);
 
         return "redirect:/carro";
     }
 
     @GetMapping("update/{id}")
-    public ModelAndView update(@PathVariable Long id){
+    public ModelAndView update(@PathVariable Long id) {
         Optional<Carro> optional = service.get(id);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             return new ModelAndView("carros/form")
-                .addObject("carro", optional.get());
+                    .addObject("carro", optional.get());
         }
         return new ModelAndView("/carro/disponivel");
     }

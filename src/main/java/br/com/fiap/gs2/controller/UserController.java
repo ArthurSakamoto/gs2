@@ -1,8 +1,5 @@
 package br.com.fiap.gs2.controller;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.gs2.dto.UserDto;
 import br.com.fiap.gs2.model.User;
-import br.com.fiap.gs2.repository.UserRepository;
 import br.com.fiap.gs2.service.UserService;
 
 @RestController
@@ -37,43 +33,42 @@ public class UserController {
     private UserService service;
 
     @GetMapping
-    public Page<User> index(Pageable pageable){
+    public Page<User> index(Pageable pageable) {
         return service.findAll(pageable);
     }
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user){
+    public ResponseEntity<User> create(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(service.save(user)
-        );
+                .status(HttpStatus.CREATED)
+                .body(service.save(user));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserDto> show(@PathVariable Long id){
+    public ResponseEntity<UserDto> show(@PathVariable Long id) {
         UserDto user = service.get(id);
-        if(user == null){
+        if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(user);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> destroy(@PathVariable Long id){
-       UserDto optional = service.get(id);
-        if(optional == null){
+    public ResponseEntity<Object> destroy(@PathVariable Long id) {
+        UserDto optional = service.get(id);
+        if (optional == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        
+
         service.remove(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody @Valid User newUser){
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody @Valid User newUser) {
         UserDto optional = service.get(id);
-        if(optional== null){
+        if (optional == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
@@ -85,5 +80,4 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    
 }
